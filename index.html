@@ -1,1134 +1,1027 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>FODA — Habilidades Directivas</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Nunito:wght@400;600;700;800&display=swap"
-      rel="stylesheet"
-    />
-    <style>
-      /* ── VARIABLES ───────────────────────────────────────── */
-      :root {
-        --purple-deep: #1a0a2e;
-        --purple-mid: #2d1060;
-        --purple-bright: #7c3aed;
-        --purple-glow: #a855f7;
-        --aqua: #00f5d4;
-        --aqua-dim: #00c9b1;
-        --aqua-soft: #0ef0d044;
-        --neon-pink: #f72585;
-        --neon-yellow: #ffe566;
-        --star-white: #e8e0ff;
-        --card-bg: #1e0d3e;
-        --card-border: #4a1a8a;
-        --text-main: #e8e0ff;
-        --text-dim: #a89bc2;
-        --pixel-font: "Press Start 2P", monospace;
-        --body-font: "Nunito", sans-serif;
-      }
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FODA — Habilidades Directivas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    /* ── VARIABLES ───────────────────────────────────────── */
+    :root {
+      --purple-deep:   #1a0a2e;
+      --purple-mid:    #2d1060;
+      --purple-bright: #7c3aed;
+      --purple-glow:   #a855f7;
+      --aqua:          #00f5d4;
+      --aqua-dim:      #00c9b1;
+      --aqua-soft:     #0ef0d044;
+      --neon-pink:     #f72585;
+      --neon-yellow:   #ffe566;
+      --star-white:    #e8e0ff;
+      --card-bg:       #1e0d3e;
+      --card-border:   #4a1a8a;
+      --text-main:     #e8e0ff;
+      --text-dim:      #a89bc2;
+      --pixel-font:    'Press Start 2P', monospace;
+      --body-font:     'Nunito', sans-serif;
+    }
 
-      /* ── RESET & BASE ────────────────────────────────────── */
-      *,
-      *::before,
-      *::after {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-      }
-      html {
-        scroll-behavior: smooth;
-      }
+    /* ── RESET & BASE ────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
 
-      body {
-        font-family: var(--body-font);
-        background: var(--purple-deep);
-        color: var(--text-main);
-        min-height: 100vh;
-        overflow-x: hidden;
-        cursor:
-          url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'%3E%3Cpolygon points='0,0 0,14 4,10 7,16 9,15 6,9 11,9' fill='%2300f5d4' stroke='%237c3aed' stroke-width='1'/%3E%3C/svg%3E"),
-          auto;
-      }
+    body {
+      font-family: var(--body-font);
+      background: var(--purple-deep);
+      color: var(--text-main);
+      min-height: 100vh;
+      overflow-x: hidden;
+      cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'%3E%3Cpolygon points='0,0 0,14 4,10 7,16 9,15 6,9 11,9' fill='%2300f5d4' stroke='%237c3aed' stroke-width='1'/%3E%3C/svg%3E"), auto;
+    }
 
-      /* ── STARFIELD CANVAS ────────────────────────────────── */
-      #starfield {
-        position: fixed;
-        inset: 0;
-        z-index: 0;
-        pointer-events: none;
-      }
+    /* ── STARFIELD CANVAS ────────────────────────────────── */
+    #starfield {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
 
-      /* ── PIXEL NOISE OVERLAY ─────────────────────────────── */
-      body::before {
-        content: "";
-        position: fixed;
-        inset: 0;
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4'%3E%3Crect x='0' y='0' width='1' height='1' fill='%23ffffff08'/%3E%3Crect x='2' y='2' width='1' height='1' fill='%23ffffff05'/%3E%3C/svg%3E");
-        pointer-events: none;
-        z-index: 1;
-      }
+    /* ── PIXEL NOISE OVERLAY ─────────────────────────────── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4'%3E%3Crect x='0' y='0' width='1' height='1' fill='%23ffffff08'/%3E%3Crect x='2' y='2' width='1' height='1' fill='%23ffffff05'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 1;
+    }
 
-      /* ── LAYOUT WRAPPER ──────────────────────────────────── */
-      .page {
-        position: relative;
-        z-index: 2;
-        max-width: 1100px;
-        margin: 0 auto;
-        padding: 0 1.5rem 4rem;
-      }
+    /* ── LAYOUT WRAPPER ──────────────────────────────────── */
+    .page {
+      position: relative;
+      z-index: 2;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 1.5rem 4rem;
+    }
 
-      /* ── FLOATING PIXELS ─────────────────────────────────── */
-      .pixel-deco {
-        position: fixed;
-        width: 8px;
-        height: 8px;
-        pointer-events: none;
-        z-index: 1;
-        animation: floatPixel linear infinite;
-      }
-      @keyframes floatPixel {
-        0% {
-          transform: translateY(100vh) rotate(0deg);
-          opacity: 0;
-        }
-        10% {
-          opacity: 1;
-        }
-        90% {
-          opacity: 1;
-        }
-        100% {
-          transform: translateY(-10vh) rotate(360deg);
-          opacity: 0;
-        }
-      }
+    /* ── FLOATING PIXELS ─────────────────────────────────── */
+    .pixel-deco {
+      position: fixed;
+      width: 8px; height: 8px;
+      pointer-events: none;
+      z-index: 1;
+      animation: floatPixel linear infinite;
+    }
+    @keyframes floatPixel {
+      0%   { transform: translateY(100vh) rotate(0deg);   opacity: 0; }
+      10%  { opacity: 1; }
+      90%  { opacity: 1; }
+      100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+    }
 
-      /* ── HEADER ──────────────────────────────────────────── */
-      header {
-        text-align: center;
-        padding: 4rem 1rem 2rem;
-        position: relative;
-      }
+    /* ── HEADER ──────────────────────────────────────────── */
+    header {
+      text-align: center;
+      padding: 4rem 1rem 2rem;
+      position: relative;
+    }
 
-      .header-frame {
-        display: inline-block;
-        position: relative;
-        padding: 2.5rem 3rem;
-        background: linear-gradient(135deg, #2d1060cc, #1a0a2ecc);
-        border: 3px solid var(--aqua);
-        box-shadow:
-          0 0 20px var(--aqua),
-          0 0 60px #00f5d440,
-          inset 0 0 30px #7c3aed22;
-      }
+    .header-frame {
+      display: inline-block;
+      position: relative;
+      padding: 2.5rem 3rem;
+      background: linear-gradient(135deg, #2d1060cc, #1a0a2ecc);
+      border: 3px solid var(--aqua);
+      box-shadow:
+        0 0 20px var(--aqua),
+        0 0 60px #00f5d440,
+        inset 0 0 30px #7c3aed22;
+    }
 
-      /* pixel corners */
-      .header-frame::before,
-      .header-frame::after,
-      .header-frame .corner-br,
-      .header-frame .corner-bl {
-        content: "";
-        position: absolute;
-        width: 12px;
-        height: 12px;
-        background: var(--neon-yellow);
-        box-shadow: 0 0 8px var(--neon-yellow);
-      }
-      .header-frame::before {
-        top: -4px;
-        left: -4px;
-      }
-      .header-frame::after {
-        top: -4px;
-        right: -4px;
-      }
-      .header-frame .corner-br {
-        bottom: -4px;
-        right: -4px;
-      }
-      .header-frame .corner-bl {
-        bottom: -4px;
-        left: -4px;
-      }
+    /* pixel corners */
+    .header-frame::before, .header-frame::after,
+    .header-frame .corner-br, .header-frame .corner-bl {
+      content: '';
+      position: absolute;
+      width: 12px; height: 12px;
+      background: var(--neon-yellow);
+      box-shadow: 0 0 8px var(--neon-yellow);
+    }
+    .header-frame::before  { top: -4px;  left: -4px; }
+    .header-frame::after   { top: -4px;  right: -4px; }
+    .header-frame .corner-br { bottom: -4px; right: -4px; }
+    .header-frame .corner-bl { bottom: -4px; left: -4px; }
 
-      .subtitle-tag {
-        font-family: var(--pixel-font);
-        font-size: 0.45rem;
-        color: var(--aqua);
-        letter-spacing: 0.15em;
-        text-transform: uppercase;
-        margin-bottom: 1rem;
-        text-shadow: 0 0 10px var(--aqua);
-      }
+    .subtitle-tag {
+      font-family: var(--pixel-font);
+      font-size: 0.45rem;
+      color: var(--aqua);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+      text-shadow: 0 0 10px var(--aqua);
+    }
 
-      h1 {
-        font-family: var(--pixel-font);
-        font-size: clamp(1rem, 3vw, 1.6rem);
-        line-height: 1.8;
-        color: var(--neon-yellow);
-        text-shadow:
-          0 0 10px var(--neon-yellow),
-          0 0 30px #ffe56680,
-          3px 3px 0 var(--purple-bright);
-        margin-bottom: 0.75rem;
-      }
+    h1 {
+      font-family: var(--pixel-font);
+      font-size: clamp(1rem, 3vw, 1.6rem);
+      line-height: 1.8;
+      color: var(--neon-yellow);
+      text-shadow:
+        0 0 10px var(--neon-yellow),
+        0 0 30px #ffe56680,
+        3px 3px 0 var(--purple-bright);
+      margin-bottom: 0.75rem;
+    }
 
-      .header-desc {
-        font-size: 0.95rem;
-        color: var(--text-dim);
-        max-width: 480px;
-        margin: 0.75rem auto 0;
-        line-height: 1.7;
-      }
+    .header-desc {
+      font-size: 0.95rem;
+      color: var(--text-dim);
+      max-width: 480px;
+      margin: 0.75rem auto 0;
+      line-height: 1.7;
+    }
 
-      /* ── SECTION TITLES ──────────────────────────────────── */
-      .section-title {
-        font-family: var(--pixel-font);
-        font-size: clamp(0.6rem, 2vw, 0.85rem);
-        color: var(--aqua);
-        text-shadow: 0 0 12px var(--aqua);
-        text-align: center;
-        margin: 3.5rem 0 2rem;
-        letter-spacing: 0.1em;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 1rem;
-      }
-      .section-title::before,
-      .section-title::after {
-        content: "";
-        flex: 1;
-        height: 2px;
-        background: linear-gradient(to right, transparent, var(--aqua));
-      }
-      .section-title::after {
-        background: linear-gradient(to left, transparent, var(--aqua));
-      }
+    /* ── SECTION TITLES ──────────────────────────────────── */
+    .section-title {
+      font-family: var(--pixel-font);
+      font-size: clamp(0.6rem, 2vw, 0.85rem);
+      color: var(--aqua);
+      text-shadow: 0 0 12px var(--aqua);
+      text-align: center;
+      margin: 3.5rem 0 2rem;
+      letter-spacing: 0.1em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+    }
+    .section-title::before,
+    .section-title::after {
+      content: '';
+      flex: 1;
+      height: 2px;
+      background: linear-gradient(to right, transparent, var(--aqua));
+    }
+    .section-title::after {
+      background: linear-gradient(to left, transparent, var(--aqua));
+    }
 
-      /* ── SCORE BAR ───────────────────────────────────────── */
-      .score-row {
-        display: flex;
-        align-items: center;
-        gap: 0.6rem;
-        margin-top: 0.7rem;
-        flex-wrap: wrap;
-      }
-      .score-label {
-        font-size: 0.7rem;
-        color: var(--text-dim);
-        font-weight: 700;
-        min-width: 80px;
-      }
-      .score-pips {
-        display: flex;
-        gap: 3px;
-      }
-      .pip {
-        width: 14px;
-        height: 14px;
-        border: 2px solid currentColor;
-        image-rendering: pixelated;
-      }
-      .pip.filled {
-        background: currentColor;
-        box-shadow: 0 0 6px currentColor;
-      }
+    /* ── SCORE BAR ───────────────────────────────────────── */
+    .score-row {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-top: 0.7rem;
+      flex-wrap: wrap;
+    }
+    .score-label {
+      font-size: 0.7rem;
+      color: var(--text-dim);
+      font-weight: 700;
+      min-width: 80px;
+    }
+    .score-pips {
+      display: flex;
+      gap: 3px;
+    }
+    .pip {
+      width: 14px; height: 14px;
+      border: 2px solid currentColor;
+      image-rendering: pixelated;
+    }
+    .pip.filled { background: currentColor; box-shadow: 0 0 6px currentColor; }
 
-      /* ── FODA GRID ───────────────────────────────────────── */
-      .foda-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 1.5rem;
-      }
-      @media (max-width: 680px) {
-        .foda-grid {
-          grid-template-columns: 1fr;
-        }
-      }
+    /* ── FODA GRID ───────────────────────────────────────── */
+    .foda-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+    @media (max-width: 680px) { .foda-grid { grid-template-columns: 1fr; } }
 
-      .foda-card {
-        background: var(--card-bg);
-        border: 3px solid var(--card-border);
-        padding: 1.8rem;
-        position: relative;
-        transition:
-          transform 0.2s,
-          box-shadow 0.2s;
-        animation: fadeSlideUp 0.6s both;
-      }
-      .foda-card:hover {
-        transform: translateY(-4px) scale(1.01);
-      }
-      /* Stardew-style pixel border corners */
-      .foda-card::before,
-      .foda-card::after {
-        content: "";
-        position: absolute;
-        width: 8px;
-        height: 8px;
-        background: var(--card-accent, var(--aqua));
-      }
-      .foda-card::before {
-        top: -3px;
-        left: -3px;
-      }
-      .foda-card::after {
-        bottom: -3px;
-        right: -3px;
-      }
+    /* ── FLIP CARD WRAPPER ───────────────────────────────── */
+    .flip-wrapper {
+      perspective: 1200px;
+      animation: fadeSlideUp 0.6s both;
+      min-height: 340px;
+    }
+    .flip-wrapper:nth-child(1) { animation-delay: 0.1s; }
+    .flip-wrapper:nth-child(2) { animation-delay: 0.2s; }
+    .flip-wrapper:nth-child(3) { animation-delay: 0.3s; }
+    .flip-wrapper:nth-child(4) { animation-delay: 0.4s; }
 
-      .foda-card.fortalezas {
-        --card-accent: #00f5d4;
-        border-color: #00f5d455;
-        box-shadow:
-          0 0 20px #00f5d420,
-          inset 0 0 20px #00f5d408;
-      }
-      .foda-card.fortalezas:hover {
-        box-shadow: 0 6px 30px #00f5d440;
-      }
+    .flip-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      min-height: 340px;
+      transform-style: preserve-3d;
+      transition: transform 0.7s cubic-bezier(0.4, 0.2, 0.2, 1);
+      cursor: pointer;
+    }
+    .flip-wrapper.flipped .flip-inner { transform: rotateY(180deg); }
 
-      .foda-card.oportunidades {
-        --card-accent: #a855f7;
-        border-color: #a855f755;
-        box-shadow:
-          0 0 20px #a855f720,
-          inset 0 0 20px #a855f708;
-      }
-      .foda-card.oportunidades:hover {
-        box-shadow: 0 6px 30px #a855f740;
-      }
+    .flip-front, .flip-back {
+      position: absolute;
+      inset: 0;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      border: 3px solid var(--card-border);
+      padding: 1.8rem;
+      background: var(--card-bg);
+      display: flex;
+      flex-direction: column;
+    }
+    .flip-back {
+      transform: rotateY(180deg);
+      overflow-y: auto;
+    }
 
-      .foda-card.debilidades {
-        --card-accent: #f72585;
-        border-color: #f7258555;
-        box-shadow:
-          0 0 20px #f7258520,
-          inset 0 0 20px #f7258508;
-      }
-      .foda-card.debilidades:hover {
-        box-shadow: 0 6px 30px #f7258540;
-      }
+    /* pixel corner accents on both faces */
+    .flip-front::before, .flip-back::before { content:''; position:absolute; width:8px; height:8px; background:var(--card-accent,var(--aqua)); top:-3px; left:-3px; }
+    .flip-front::after,  .flip-back::after  { content:''; position:absolute; width:8px; height:8px; background:var(--card-accent,var(--aqua)); bottom:-3px; right:-3px; }
 
-      .foda-card.amenazas {
-        --card-accent: #ffe566;
-        border-color: #ffe56655;
-        box-shadow:
-          0 0 20px #ffe56620,
-          inset 0 0 20px #ffe56608;
-      }
-      .foda-card.amenazas:hover {
-        box-shadow: 0 6px 30px #ffe56640;
-      }
+    /* color variants via wrapper */
+    .flip-wrapper.fortalezas    { --card-accent: #00f5d4; }
+    .flip-wrapper.oportunidades { --card-accent: #a855f7; }
+    .flip-wrapper.debilidades   { --card-accent: #f72585; }
+    .flip-wrapper.amenazas      { --card-accent: #ffe566; }
 
-      .foda-card-header {
-        display: flex;
-        align-items: center;
-        gap: 0.8rem;
-        margin-bottom: 1.2rem;
-        padding-bottom: 0.8rem;
-        border-bottom: 2px solid var(--card-accent, var(--aqua));
-      }
+    .flip-front {
+      border-color: color-mix(in srgb, var(--card-accent) 35%, transparent);
+      box-shadow: 0 0 20px color-mix(in srgb, var(--card-accent) 15%, transparent), inset 0 0 20px color-mix(in srgb, var(--card-accent) 5%, transparent);
+    }
+    .flip-back {
+      border-color: color-mix(in srgb, var(--card-accent) 60%, transparent);
+      box-shadow: 0 0 30px color-mix(in srgb, var(--card-accent) 25%, transparent), inset 0 0 30px color-mix(in srgb, var(--card-accent) 8%, transparent);
+    }
 
-      .foda-icon {
-        font-size: 1.4rem;
-        filter: drop-shadow(0 0 6px var(--card-accent, var(--aqua)));
-      }
+    /* ── CARD HEADER ─────────────────────────────────────── */
+    .foda-card-header {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      margin-bottom: 1.2rem;
+      padding-bottom: 0.8rem;
+      border-bottom: 2px solid var(--card-accent, var(--aqua));
+    }
+    .foda-icon { font-size: 1.4rem; filter: drop-shadow(0 0 6px var(--card-accent, var(--aqua))); }
+    .foda-title {
+      font-family: var(--pixel-font);
+      font-size: 0.65rem;
+      color: var(--card-accent, var(--aqua));
+      text-shadow: 0 0 10px var(--card-accent, var(--aqua));
+      letter-spacing: 0.08em;
+    }
 
-      .foda-title {
-        font-family: var(--pixel-font);
-        font-size: 0.65rem;
-        color: var(--card-accent, var(--aqua));
-        text-shadow: 0 0 10px var(--card-accent, var(--aqua));
-        letter-spacing: 0.08em;
-      }
+    /* ── SCORE BAR ───────────────────────────────────────── */
+    .score-row {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-top: 0.5rem;
+      flex-wrap: wrap;
+    }
+    .score-label {
+      font-size: 0.7rem;
+      color: var(--text-dim);
+      font-weight: 700;
+      min-width: 55px;
+    }
+    .score-pips { display: flex; gap: 3px; }
+    .pip {
+      width: 12px; height: 12px;
+      border: 2px solid currentColor;
+      image-rendering: pixelated;
+    }
+    .pip.filled { background: currentColor; box-shadow: 0 0 5px currentColor; }
 
-      .foda-items {
-        list-style: none;
-        display: flex;
-        flex-direction: column;
-        gap: 1.2rem;
-      }
+    /* ── FRONT ability list ──────────────────────────────── */
+    .foda-items { list-style: none; display: flex; flex-direction: column; gap: 0.9rem; }
+    .foda-item-title {
+      font-weight: 800;
+      font-size: 0.9rem;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .foda-item-title::before { content: '▸'; color: var(--card-accent, var(--aqua)); font-size: 0.75rem; }
 
-      .foda-item-title {
-        font-weight: 800;
-        font-size: 0.95rem;
-        color: var(--text-main);
-        margin-bottom: 0.25rem;
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-      }
-      .foda-item-title::before {
-        content: "▸";
-        color: var(--card-accent, var(--aqua));
-        font-size: 0.8rem;
-      }
+    /* ── FRONT ───────────────────────────────────────────── */
+    .front-body { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 1rem; }
+    .front-question {
+      font-size: 1rem;
+      font-weight: 800;
+      color: var(--text-main);
+      line-height: 1.6;
+    }
+    .front-question + .front-question {
+      padding-top: 0.8rem;
+      border-top: 1px solid color-mix(in srgb, var(--card-accent) 20%, transparent);
+    }
+    .front-question::before { content: '▸ '; color: var(--card-accent, var(--aqua)); }
+    .flip-hint {
+      margin-top: auto;
+      padding-top: 1rem;
+      font-family: var(--pixel-font);
+      font-size: 0.38rem;
+      color: var(--card-accent, var(--aqua));
+      opacity: 0.7;
+      text-align: right;
+      letter-spacing: 0.1em;
+      animation: hintPulse 2s ease-in-out infinite;
+    }
+    @keyframes hintPulse { 0%,100%{opacity:0.5} 50%{opacity:1} }
 
-      .foda-item-desc {
-        font-size: 0.85rem;
-        color: var(--text-dim);
-        line-height: 1.65;
-        padding-left: 1.1rem;
-      }
+    /* ── BACK ────────────────────────────────────────────── */
+    .back-body { flex: 1; display: flex; flex-direction: column; gap: 1.1rem; }
+    .qa-block  { display: flex; flex-direction: column; gap: 0.3rem; }
+    .qa-q {
+      font-size: 0.78rem;
+      font-weight: 800;
+      color: var(--card-accent, var(--aqua));
+      text-shadow: 0 0 6px var(--card-accent, var(--aqua));
+    }
+    .qa-a {
+      font-size: 0.88rem;
+      color: var(--text-dim);
+      line-height: 1.65;
+      padding-left: 0.8rem;
+      border-left: 2px solid color-mix(in srgb, var(--card-accent) 40%, transparent);
+    }
+    .flip-back-hint {
+      margin-top: auto;
+      padding-top: 1rem;
+      font-family: var(--pixel-font);
+      font-size: 0.38rem;
+      color: var(--card-accent, var(--aqua));
+      opacity: 0.6;
+      text-align: right;
+      letter-spacing: 0.1em;
+    }
 
-      /* ── GALLERY ─────────────────────────────────────────── */
-      .gallery-intro {
-        text-align: center;
-        font-size: 0.9rem;
-        color: var(--text-dim);
-        margin-bottom: 1.5rem;
-        font-style: italic;
-      }
+    /* ── GALLERY ─────────────────────────────────────────── */
+    .gallery-intro {
+      text-align: center;
+      font-size: 0.9rem;
+      color: var(--text-dim);
+      margin-bottom: 1.5rem;
+      font-style: italic;
+    }
 
-      .gallery-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 1.2rem;
-      }
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.2rem;
+    }
 
-      .gallery-slot {
-        background: var(--card-bg);
-        border: 3px dashed var(--purple-bright);
-        padding: 1rem;
-        position: relative;
-        overflow: hidden;
-        transition:
-          border-color 0.2s,
-          box-shadow 0.2s;
-        min-height: 200px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        gap: 0.8rem;
-      }
-      .gallery-slot:hover {
-        border-color: var(--aqua);
-        box-shadow: 0 0 20px var(--aqua-soft);
-      }
+    .gallery-slot {
+      background: var(--card-bg);
+      border: 3px dashed var(--purple-bright);
+      padding: 1rem;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      min-height: 200px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.8rem;
+    }
+    .gallery-slot:hover {
+      border-color: var(--aqua);
+      box-shadow: 0 0 20px var(--aqua-soft);
+    }
 
-      .gallery-slot img,
-      .gallery-slot video {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
-        position: absolute;
-        inset: 0;
-      }
+    .gallery-slot img,
+    .gallery-slot video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      position: absolute;
+      inset: 0;
+    }
 
-      .gallery-placeholder {
-        text-align: center;
-        pointer-events: none;
-      }
-      .gallery-placeholder .ph-icon {
-        font-size: 2.5rem;
-        margin-bottom: 0.5rem;
-        opacity: 0.5;
-      }
-      .gallery-placeholder p {
-        font-family: var(--pixel-font);
-        font-size: 0.45rem;
-        color: var(--purple-glow);
-        line-height: 2;
-      }
-      .gallery-placeholder span {
-        font-size: 0.75rem;
-        color: var(--text-dim);
-        font-family: var(--body-font);
-        display: block;
-        margin-top: 0.3rem;
-      }
+    .gallery-placeholder {
+      text-align: center;
+      pointer-events: none;
+    }
+    .gallery-placeholder .ph-icon { font-size: 2.5rem; margin-bottom: 0.5rem; opacity: 0.5; }
+    .gallery-placeholder p {
+      font-family: var(--pixel-font);
+      font-size: 0.45rem;
+      color: var(--purple-glow);
+      line-height: 2;
+    }
+    .gallery-placeholder span {
+      font-size: 0.75rem;
+      color: var(--text-dim);
+      font-family: var(--body-font);
+      display: block;
+      margin-top: 0.3rem;
+    }
 
-      /* ── HOW TO ADD MEDIA ────────────────────────────────── */
-      .media-instructions {
-        background: #1a0a2e;
-        border: 2px solid var(--purple-bright);
-        padding: 1.5rem;
-        margin-top: 1.5rem;
-        box-shadow: 0 0 15px #7c3aed30;
-      }
-      .media-instructions h3 {
-        font-family: var(--pixel-font);
-        font-size: 0.55rem;
-        color: var(--neon-yellow);
-        margin-bottom: 1rem;
-        text-shadow: 0 0 8px var(--neon-yellow);
-      }
-      .media-instructions code {
-        background: #0a0018;
-        color: var(--aqua);
-        padding: 0.15rem 0.4rem;
-        font-size: 0.82rem;
-        border: 1px solid var(--aqua-dim);
-      }
-      .media-instructions p {
-        font-size: 0.85rem;
-        color: var(--text-dim);
-        line-height: 1.7;
-        margin-bottom: 0.5rem;
-      }
+    /* ── HOW TO ADD MEDIA ────────────────────────────────── */
+    .media-instructions {
+      background: #1a0a2e;
+      border: 2px solid var(--purple-bright);
+      padding: 1.5rem;
+      margin-top: 1.5rem;
+      box-shadow: 0 0 15px #7c3aed30;
+    }
+    .media-instructions h3 {
+      font-family: var(--pixel-font);
+      font-size: 0.55rem;
+      color: var(--neon-yellow);
+      margin-bottom: 1rem;
+      text-shadow: 0 0 8px var(--neon-yellow);
+    }
+    .media-instructions code {
+      background: #0a0018;
+      color: var(--aqua);
+      padding: 0.15rem 0.4rem;
+      font-size: 0.82rem;
+      border: 1px solid var(--aqua-dim);
+    }
+    .media-instructions p {
+      font-size: 0.85rem;
+      color: var(--text-dim);
+      line-height: 1.7;
+      margin-bottom: 0.5rem;
+    }
 
-      /* ── CONCLUSION ──────────────────────────────────────── */
-      .conclusion-box {
-        background: linear-gradient(135deg, #2d1060, #1a0a2e);
-        border: 3px solid var(--aqua);
-        padding: 2.5rem;
-        position: relative;
-        box-shadow:
-          0 0 30px #00f5d430,
-          inset 0 0 40px #7c3aed15;
-        text-align: center;
-      }
-      .conclusion-box::before,
-      .conclusion-box::after,
-      .conclusion-box .c-br,
-      .conclusion-box .c-bl {
-        content: "";
-        position: absolute;
-        width: 16px;
-        height: 16px;
-        background: var(--aqua);
-        box-shadow: 0 0 10px var(--aqua);
-      }
-      .conclusion-box::before {
-        top: -5px;
-        left: -5px;
-      }
-      .conclusion-box::after {
-        top: -5px;
-        right: -5px;
-      }
-      .conclusion-box .c-br {
-        bottom: -5px;
-        right: -5px;
-      }
-      .conclusion-box .c-bl {
-        bottom: -5px;
-        left: -5px;
-      }
+    /* ── CONCLUSION ──────────────────────────────────────── */
+    .conclusion-box {
+      background: linear-gradient(135deg, #2d1060, #1a0a2e);
+      border: 3px solid var(--aqua);
+      padding: 2.5rem;
+      position: relative;
+      box-shadow: 0 0 30px #00f5d430, inset 0 0 40px #7c3aed15;
+      text-align: center;
+    }
+    .conclusion-box::before, .conclusion-box::after,
+    .conclusion-box .c-br, .conclusion-box .c-bl {
+      content: '';
+      position: absolute;
+      width: 16px; height: 16px;
+      background: var(--aqua);
+      box-shadow: 0 0 10px var(--aqua);
+    }
+    .conclusion-box::before { top: -5px; left: -5px; }
+    .conclusion-box::after  { top: -5px; right: -5px; }
+    .conclusion-box .c-br   { bottom: -5px; right: -5px; }
+    .conclusion-box .c-bl   { bottom: -5px; left: -5px; }
 
-      .conclusion-box p {
-        font-size: 1rem;
-        line-height: 1.85;
-        color: var(--text-main);
-        max-width: 720px;
-        margin: 0 auto;
-      }
+    .conclusion-box p {
+      font-size: 1rem;
+      line-height: 1.85;
+      color: var(--text-main);
+      max-width: 720px;
+      margin: 0 auto;
+    }
 
-      .conclusion-box p strong {
-        color: var(--aqua);
-        text-shadow: 0 0 8px var(--aqua);
-      }
+    .conclusion-box p strong {
+      color: var(--aqua);
+      text-shadow: 0 0 8px var(--aqua);
+    }
 
-      /* ── STATS SUMMARY ───────────────────────────────────── */
-      .stats-row {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 1rem;
-        justify-content: center;
-        margin-top: 2rem;
-      }
+    /* ── STATS SUMMARY ───────────────────────────────────── */
+    .stats-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+      margin-top: 2rem;
+    }
 
-      .stat-chip {
-        background: #0a0018;
-        border: 2px solid var(--purple-bright);
-        padding: 0.6rem 1.2rem;
-        font-family: var(--pixel-font);
-        font-size: 0.45rem;
-        color: var(--text-main);
-        text-align: center;
-        line-height: 2;
-        box-shadow: 0 0 10px #7c3aed40;
-        transition: box-shadow 0.2s;
-      }
-      .stat-chip:hover {
-        box-shadow: 0 0 20px #7c3aed90;
-      }
-      .stat-chip .chip-val {
-        display: block;
-        font-size: 1.1rem;
-        color: var(--aqua);
-        text-shadow: 0 0 10px var(--aqua);
-        font-family: var(--pixel-font);
-      }
+    .stat-chip {
+      background: #0a0018;
+      border: 2px solid var(--purple-bright);
+      padding: 0.6rem 1.2rem;
+      font-family: var(--pixel-font);
+      font-size: 0.45rem;
+      color: var(--text-main);
+      text-align: center;
+      line-height: 2;
+      box-shadow: 0 0 10px #7c3aed40;
+      transition: box-shadow 0.2s;
+    }
+    .stat-chip:hover { box-shadow: 0 0 20px #7c3aed90; }
+    .stat-chip .chip-val {
+      display: block;
+      font-size: 1.1rem;
+      color: var(--aqua);
+      text-shadow: 0 0 10px var(--aqua);
+      font-family: var(--pixel-font);
+    }
 
-      /* ── FOOTER ──────────────────────────────────────────── */
-      footer {
-        text-align: center;
-        padding: 3rem 1rem 2rem;
-        font-family: var(--pixel-font);
-        font-size: 0.4rem;
-        color: var(--text-dim);
-        letter-spacing: 0.1em;
-        line-height: 2.5;
-      }
-      footer span {
-        color: var(--aqua);
-        text-shadow: 0 0 6px var(--aqua);
-      }
+    /* ── FOOTER ──────────────────────────────────────────── */
+    footer {
+      text-align: center;
+      padding: 3rem 1rem 2rem;
+      font-family: var(--pixel-font);
+      font-size: 0.4rem;
+      color: var(--text-dim);
+      letter-spacing: 0.1em;
+      line-height: 2.5;
+    }
+    footer span { color: var(--aqua); text-shadow: 0 0 6px var(--aqua); }
 
-      /* ── ANIMATIONS ──────────────────────────────────────── */
-      @keyframes fadeSlideUp {
-        from {
-          opacity: 0;
-          transform: translateY(24px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-      .foda-card:nth-child(1) {
-        animation-delay: 0.1s;
-      }
-      .foda-card:nth-child(2) {
-        animation-delay: 0.2s;
-      }
-      .foda-card:nth-child(3) {
-        animation-delay: 0.3s;
-      }
-      .foda-card:nth-child(4) {
-        animation-delay: 0.4s;
-      }
+    /* ── ANIMATIONS ──────────────────────────────────────── */
+    @keyframes fadeSlideUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .foda-card:nth-child(1) { animation-delay: 0.1s; }
+    .foda-card:nth-child(2) { animation-delay: 0.2s; }
+    .foda-card:nth-child(3) { animation-delay: 0.3s; }
+    .foda-card:nth-child(4) { animation-delay: 0.4s; }
 
-      @keyframes glowPulse {
-        0%,
-        100% {
-          text-shadow:
-            0 0 10px var(--neon-yellow),
-            0 0 30px #ffe56680,
-            3px 3px 0 var(--purple-bright);
-        }
-        50% {
-          text-shadow:
-            0 0 20px var(--neon-yellow),
-            0 0 60px #ffe566cc,
-            3px 3px 0 var(--purple-bright);
-        }
-      }
-      h1 {
-        animation: glowPulse 3s ease-in-out infinite;
-      }
+    @keyframes glowPulse {
+      0%, 100% { text-shadow: 0 0 10px var(--neon-yellow), 0 0 30px #ffe56680, 3px 3px 0 var(--purple-bright); }
+      50%       { text-shadow: 0 0 20px var(--neon-yellow), 0 0 60px #ffe566cc, 3px 3px 0 var(--purple-bright); }
+    }
+    h1 { animation: glowPulse 3s ease-in-out infinite; }
 
-      @keyframes scanline {
-        0% {
-          transform: translateY(-100%);
-        }
-        100% {
-          transform: translateY(100vh);
-        }
-      }
-      .scanline {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 3px;
-        background: linear-gradient(transparent, #00f5d410, transparent);
-        animation: scanline 8s linear infinite;
-        pointer-events: none;
-        z-index: 3;
-      }
-    </style>
-  </head>
-  <body>
-    <!-- animated scanline -->
-    <div class="scanline"></div>
+    @keyframes scanline {
+      0%   { transform: translateY(-100%); }
+      100% { transform: translateY(100vh); }
+    }
+    .scanline {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(transparent, #00f5d410, transparent);
+      animation: scanline 8s linear infinite;
+      pointer-events: none;
+      z-index: 3;
+    }
+  </style>
+</head>
+<body>
 
-    <!-- starfield -->
-    <canvas id="starfield"></canvas>
+<!-- animated scanline -->
+<div class="scanline"></div>
 
-    <!-- floating pixel particles (JS generated) -->
+<!-- starfield -->
+<canvas id="starfield"></canvas>
 
-    <div class="page">
-      <!-- ══ HEADER ══════════════════════════════════════════════ -->
-      <header>
-        <div class="header-frame">
-          <div class="corner-br"></div>
-          <div class="corner-bl"></div>
-          <p class="subtitle-tag">
-            ✦ Habilidades Directivas · Semestre Actual ✦
-          </p>
-          <h1>Análisis FODA<br />Liderazgo Personal</h1>
-          <p class="header-desc">
-            Un recorrido por mis habilidades como líder: lo que me impulsa, lo
-            que construyo, lo que aprendo y los retos que enfrento.
-          </p>
-        </div>
-      </header>
+<!-- floating pixel particles (JS generated) -->
 
-      <!-- ══ STATS CHIPS ══════════════════════════════════════════ -->
-      <div class="stats-row" style="margin-top: 2.5rem">
-        <div class="stat-chip">
-          <span class="chip-val">14</span>habilidades evaluadas
-        </div>
-        <div class="stat-chip">
-          <span
-            class="chip-val"
-            style="
-              color: var(--neon-yellow);
-              text-shadow: 0 0 10px var(--neon-yellow);
-            "
-            >4.1</span
-          >promedio general
-        </div>
-        <div class="stat-chip">
-          <span
-            class="chip-val"
-            style="
-              color: var(--neon-pink);
-              text-shadow: 0 0 10px var(--neon-pink);
-            "
-            >3</span
-          >áreas ×5
-        </div>
-        <div class="stat-chip">
-          <span
-            class="chip-val"
-            style="
-              color: var(--purple-glow);
-              text-shadow: 0 0 10px var(--purple-glow);
-            "
-            >1</span
-          >área en desarrollo
-        </div>
-      </div>
+<div class="page">
 
-      <!-- ══ FODA ═════════════════════════════════════════════════ -->
-      <h2 class="section-title">✦ ANÁLISIS FODA ✦</h2>
+  <!-- ══ HEADER ══════════════════════════════════════════════ -->
+  <header>
+    <div class="header-frame">
+      <div class="corner-br"></div>
+      <div class="corner-bl"></div>
+      <p class="subtitle-tag">✦ Habilidades Directivas · Semestre Actual ✦</p>
+      <h1>Análisis FODA<br>Liderazgo Personal</h1>
+      <p class="header-desc">
+        Un recorrido por mis habilidades como líder: lo que me impulsa, lo que construyo, lo que aprendo y los retos que enfrento.
+      </p>
+    </div>
+  </header>
 
-      <div class="foda-grid">
-        <!-- FORTALEZAS -->
-        <div class="foda-card fortalezas">
+  <!-- ══ STATS CHIPS ══════════════════════════════════════════ -->
+  <div class="stats-row" style="margin-top:2.5rem;">
+    <div class="stat-chip"><span class="chip-val">14</span>habilidades evaluadas</div>
+    <div class="stat-chip"><span class="chip-val" style="color:var(--neon-yellow);text-shadow:0 0 10px var(--neon-yellow);">4.1</span>promedio general</div>
+    <div class="stat-chip"><span class="chip-val" style="color:var(--neon-pink);text-shadow:0 0 10px var(--neon-pink);">3</span>áreas ×5</div>
+    <div class="stat-chip"><span class="chip-val" style="color:var(--purple-glow);text-shadow:0 0 10px var(--purple-glow);">1</span>área en desarrollo</div>
+  </div>
+
+  <!-- ══ FODA ═════════════════════════════════════════════════ -->
+  <h2 class="section-title">✦ ANÁLISIS FODA ✦</h2>
+
+  <div class="foda-grid">
+
+    <!-- FORTALEZAS -->
+    <div class="flip-wrapper fortalezas" onclick="this.classList.toggle('flipped')">
+      <div class="flip-inner">
+        <div class="flip-front">
           <div class="foda-card-header">
             <span class="foda-icon">⚔️</span>
             <span class="foda-title">FORTALEZAS</span>
           </div>
-          <ul class="foda-items">
-            <li>
-              <div class="foda-item-title">Manejo de Estrés</div>
-              <div class="score-row">
-                <span class="score-label" style="color: var(--aqua)"
-                  >Nivel</span
-                >
-                <div class="score-pips" style="color: var(--aqua)">
-                  <div class="pip filled"></div>
-                  <div class="pip filled"></div>
-                  <div class="pip filled"></div>
-                  <div class="pip filled"></div>
-                  <div class="pip filled"></div>
+          <div class="front-body">
+            <ul class="foda-items">
+              <li>
+                <div class="foda-item-title">Autoconocimiento</div>
+                <div class="score-row">
+                  <span class="score-label" style="color:var(--aqua)">Nivel</span>
+                  <div class="score-pips" style="color:var(--aqua)">
+                    <div class="pip filled"></div><div class="pip filled"></div><div class="pip filled"></div><div class="pip filled"></div><div class="pip"></div>
+                  </div>
                 </div>
-              </div>
-            </li>
-            <li>
-              <div class="foda-item-title">Gestión de Tiempo</div>
-              <div class="score-row">
-                <span class="score-label" style="color: var(--aqua)"
-                  >Nivel</span
-                >
-                <div class="score-pips" style="color: var(--aqua)">
-                  <div class="pip filled"></div>
-                  <div class="pip filled"></div>
-                  <div class="pip filled"></div>
-                  <div class="pip filled"></div>
-                  <div class="pip filled"></div>
+              </li>
+              <li>
+                <div class="foda-item-title">Manejo de Estrés</div>
+                <div class="score-row">
+                  <span class="score-label" style="color:var(--aqua)">Nivel</span>
+                  <div class="score-pips" style="color:var(--aqua)">
+                    <div class="pip filled"></div><div class="pip filled"></div><div class="pip filled"></div><div class="pip filled"></div><div class="pip filled"></div>
+                  </div>
                 </div>
-              </div>
-            </li>
-            <li>
-              <div class="foda-item-title">Reuniones de Trabajo</div>
-              <div class="score-row">
-                <span class="score-label" style="color: var(--aqua)"
-                  >Nivel</span
-                >
-                <div class="score-pips" style="color: var(--aqua)">
-                  <div class="pip filled"></div>
-                  <div class="pip filled"></div>
-                  <div class="pip filled"></div>
-                  <div class="pip filled"></div>
-                  <div class="pip filled"></div>
+              </li>
+              <li>
+                <div class="foda-item-title">Reuniones de Trabajo</div>
+                <div class="score-row">
+                  <span class="score-label" style="color:var(--aqua)">Nivel</span>
+                  <div class="score-pips" style="color:var(--aqua)">
+                    <div class="pip filled"></div><div class="pip filled"></div><div class="pip filled"></div><div class="pip filled"></div><div class="pip filled"></div>
+                  </div>
                 </div>
-              </div>
-            </li>
-            <li>
-              <div class="foda-item-title">Crecimiento Profesional</div>
-              <div class="score-row">
-                <span class="score-label" style="color: var(--aqua)"
-                  >Nivel</span
-                >
-                <div class="score-pips" style="color: var(--aqua)">
-                  <div class="pip filled"></div>
-                  <div class="pip filled"></div>
-                  <div class="pip filled"></div>
-                  <div class="pip filled"></div>
-                  <div class="pip filled"></div>
+              </li>
+              <li>
+                <div class="foda-item-title">Crecimiento Profesional</div>
+                <div class="score-row">
+                  <span class="score-label" style="color:var(--aqua)">Nivel</span>
+                  <div class="score-pips" style="color:var(--aqua)">
+                    <div class="pip filled"></div><div class="pip filled"></div><div class="pip filled"></div><div class="pip filled"></div><div class="pip filled"></div>
+                  </div>
                 </div>
-              </div>
-            </li>
-          </ul>
+              </li>
+            </ul>
+          </div>
+          <p class="flip-hint">CLICK PARA REVELAR ✦</p>
         </div>
+        <div class="flip-back">
+          <div class="foda-card-header">
+            <span class="foda-icon">⚔️</span>
+            <span class="foda-title">FORTALEZAS</span>
+          </div>
+          <div class="back-body">
+            <div class="qa-block">
+              <p class="qa-q">¿Qué habilidades son las que tienes más desarrolladas?</p>
+              <p class="qa-a">Autoconocimiento, manejo del estrés y capacidad para dirigir reuniones de trabajo.</p>
+            </div>
+            <div class="qa-block">
+              <p class="qa-q">¿Cuándo las has puesto en práctica?</p>
+              <p class="qa-a">Las he desarrollado y aplicado principalmente al crear y liderar una comunidad de tecnología (Student Builder Group), donde constantemente debo coordinar actividades, trabajar con equipos y tomar decisiones.</p>
+            </div>
+          </div>
+          <p class="flip-back-hint">CLICK PARA VOLVER ↩</p>
+        </div>
+      </div>
+    </div>
 
-        <!-- OPORTUNIDADES -->
-        <div class="foda-card oportunidades">
+    <!-- OPORTUNIDADES -->
+    <div class="flip-wrapper oportunidades" onclick="this.classList.toggle('flipped')">
+      <div class="flip-inner">
+        <div class="flip-front">
           <div class="foda-card-header">
             <span class="foda-icon">🌱</span>
             <span class="foda-title">OPORTUNIDADES</span>
           </div>
-          <ul class="foda-items">
-            <li>
-              <div class="foda-item-title">Establecer Relaciones</div>
-              <div class="score-row">
-                <span class="score-label" style="color: var(--purple-glow)"
-                  >Nivel</span
-                >
-                <div class="score-pips" style="color: var(--purple-glow)">
-                  <div class="pip filled"></div>
-                  <div class="pip filled"></div>
-                  <div class="pip filled"></div>
-                  <div class="pip filled"></div>
-                  <div class="pip"></div>
+          <div class="front-body">
+            <ul class="foda-items">
+              <li>
+                <div class="foda-item-title">Establecer Relaciones</div>
+                <div class="score-row">
+                  <span class="score-label" style="color:var(--purple-glow)">Nivel</span>
+                  <div class="score-pips" style="color:var(--purple-glow)">
+                    <div class="pip filled"></div><div class="pip filled"></div><div class="pip filled"></div><div class="pip filled"></div><div class="pip"></div>
+                  </div>
                 </div>
-              </div>
-            </li>
-            <li>
-              <div class="foda-item-title">Estrategia</div>
-              <div class="score-row">
-                <span class="score-label" style="color: var(--purple-glow)"
-                  >Nivel</span
-                >
-                <div class="score-pips" style="color: var(--purple-glow)">
-                  <div class="pip filled"></div>
-                  <div class="pip filled"></div>
-                  <div class="pip filled"></div>
-                  <div class="pip filled"></div>
-                  <div class="pip"></div>
+              </li>
+              <li>
+                <div class="foda-item-title">Estrategia</div>
+                <div class="score-row">
+                  <span class="score-label" style="color:var(--purple-glow)">Nivel</span>
+                  <div class="score-pips" style="color:var(--purple-glow)">
+                    <div class="pip filled"></div><div class="pip filled"></div><div class="pip filled"></div><div class="pip filled"></div><div class="pip"></div>
+                  </div>
                 </div>
-              </div>
-            </li>
-            <li>
-              <div class="foda-item-title">Entrevistas</div>
-              <div class="score-row">
-                <span class="score-label" style="color: var(--purple-glow)"
-                  >Nivel</span
-                >
-                <div class="score-pips" style="color: var(--purple-glow)">
-                  <div class="pip filled"></div>
-                  <div class="pip filled"></div>
-                  <div class="pip filled"></div>
-                  <div class="pip filled"></div>
-                  <div class="pip"></div>
+              </li>
+              <li>
+                <div class="foda-item-title">Entrevistas</div>
+                <div class="score-row">
+                  <span class="score-label" style="color:var(--purple-glow)">Nivel</span>
+                  <div class="score-pips" style="color:var(--purple-glow)">
+                    <div class="pip filled"></div><div class="pip filled"></div><div class="pip filled"></div><div class="pip filled"></div><div class="pip"></div>
+                  </div>
                 </div>
-              </div>
-            </li>
-            <li>
-              <div class="foda-item-title">Comunicación Efectiva</div>
-              <div class="score-row">
-                <span class="score-label" style="color: var(--purple-glow)"
-                  >Nivel</span
-                >
-                <div class="score-pips" style="color: var(--purple-glow)">
-                  <div class="pip filled"></div>
-                  <div class="pip filled"></div>
-                  <div class="pip filled"></div>
-                  <div class="pip"></div>
-                  <div class="pip"></div>
+              </li>
+              <li>
+                <div class="foda-item-title">Comunicación Efectiva</div>
+                <div class="score-row">
+                  <span class="score-label" style="color:var(--purple-glow)">Nivel</span>
+                  <div class="score-pips" style="color:var(--purple-glow)">
+                    <div class="pip filled"></div><div class="pip filled"></div><div class="pip filled"></div><div class="pip"></div><div class="pip"></div>
+                  </div>
                 </div>
-              </div>
-            </li>
-          </ul>
+              </li>
+            </ul>
+          </div>
+          <p class="flip-hint">CLICK PARA REVELAR ✦</p>
         </div>
+        <div class="flip-back">
+          <div class="foda-card-header">
+            <span class="foda-icon">🌱</span>
+            <span class="foda-title">OPORTUNIDADES</span>
+          </div>
+          <div class="back-body">
+            <div class="qa-block">
+              <p class="qa-q">¿Qué recursos o personas pueden ayudarte a crecer?</p>
+              <p class="qa-a">Actualmente estoy participando en el programa New Voices, enfocado en desarrollar habilidades para impartir charlas técnicas y formar líderes en la industria tecnológica. Además, cuento con apoyo de mentores, personas de empresas tecnológicas y miembros de mi equipo.</p>
+            </div>
+            <div class="qa-block">
+              <p class="qa-q">¿Cómo puedes aprovecharlos mejor?</p>
+              <p class="qa-a">Puedo aprovechar estas oportunidades creando relaciones de beneficio mutuo, no solo enfocándome en recibir apoyo, sino también aportando valor a quienes me ayudan.</p>
+            </div>
+          </div>
+          <p class="flip-back-hint">CLICK PARA VOLVER ↩</p>
+        </div>
+      </div>
+    </div>
 
-        <!-- DEBILIDADES -->
-        <div class="foda-card debilidades">
+    <!-- DEBILIDADES -->
+    <div class="flip-wrapper debilidades" onclick="this.classList.toggle('flipped')">
+      <div class="flip-inner">
+        <div class="flip-front">
           <div class="foda-card-header">
             <span class="foda-icon">🛡️</span>
             <span class="foda-title">DEBILIDADES</span>
           </div>
-          <ul class="foda-items">
-            <li>
-              <div class="foda-item-title">Delegar</div>
-              <div class="score-row">
-                <span class="score-label" style="color: var(--neon-pink)"
-                  >Nivel</span
-                >
-                <div class="score-pips" style="color: var(--neon-pink)">
-                  <div class="pip filled"></div>
-                  <div class="pip filled"></div>
-                  <div class="pip"></div>
-                  <div class="pip"></div>
-                  <div class="pip"></div>
+          <div class="front-body">
+            <ul class="foda-items">
+              <li>
+                <div class="foda-item-title">Delegar</div>
+                <div class="score-row">
+                  <span class="score-label" style="color:var(--neon-pink)">Nivel</span>
+                  <div class="score-pips" style="color:var(--neon-pink)">
+                    <div class="pip filled"></div><div class="pip filled"></div><div class="pip"></div><div class="pip"></div><div class="pip"></div>
+                  </div>
                 </div>
-              </div>
-            </li>
-            <li>
-              <div class="foda-item-title">Orden Personal</div>
-              <div class="score-row">
-                <span class="score-label" style="color: var(--neon-pink)"
-                  >Nivel</span
-                >
-                <div class="score-pips" style="color: var(--neon-pink)">
-                  <div class="pip filled"></div>
-                  <div class="pip filled"></div>
-                  <div class="pip filled"></div>
-                  <div class="pip filled"></div>
-                  <div class="pip"></div>
+              </li>
+              <li>
+                <div class="foda-item-title">Orden Personal</div>
+                <div class="score-row">
+                  <span class="score-label" style="color:var(--neon-pink)">Nivel</span>
+                  <div class="score-pips" style="color:var(--neon-pink)">
+                    <div class="pip filled"></div><div class="pip filled"></div><div class="pip filled"></div><div class="pip filled"></div><div class="pip"></div>
+                  </div>
                 </div>
-              </div>
-            </li>
-            <li>
-              <div class="foda-item-title">Empoderar</div>
-              <div class="score-row">
-                <span class="score-label" style="color: var(--neon-pink)"
-                  >Nivel</span
-                >
-                <div class="score-pips" style="color: var(--neon-pink)">
-                  <div class="pip filled"></div>
-                  <div class="pip filled"></div>
-                  <div class="pip filled"></div>
-                  <div class="pip"></div>
-                  <div class="pip"></div>
+              </li>
+              <li>
+                <div class="foda-item-title">Empoderar</div>
+                <div class="score-row">
+                  <span class="score-label" style="color:var(--neon-pink)">Nivel</span>
+                  <div class="score-pips" style="color:var(--neon-pink)">
+                    <div class="pip filled"></div><div class="pip filled"></div><div class="pip filled"></div><div class="pip"></div><div class="pip"></div>
+                  </div>
                 </div>
-              </div>
-            </li>
-          </ul>
+              </li>
+            </ul>
+          </div>
+          <p class="flip-hint">CLICK PARA REVELAR ✦</p>
         </div>
+        <div class="flip-back">
+          <div class="foda-card-header">
+            <span class="foda-icon">🛡️</span>
+            <span class="foda-title">DEBILIDADES</span>
+          </div>
+          <div class="back-body">
+            <div class="qa-block">
+              <p class="qa-q">¿Qué habilidad directiva necesitas mejorar?</p>
+              <p class="qa-a">La delegación de tareas. He identificado que no se trata únicamente de querer hacer las cosas por mi cuenta, sino de aprender a delegar de manera clara y efectiva para asegurar que las actividades se realicen correctamente.</p>
+            </div>
+            <div class="qa-block">
+              <p class="qa-q">¿Qué obstáculos personales has identificado?</p>
+              <p class="qa-a">La organización y comunicación del trabajo. A veces la manera en que organizo las tareas no se transmite de forma clara para otras personas dentro del equipo.</p>
+            </div>
+          </div>
+          <p class="flip-back-hint">CLICK PARA VOLVER ↩</p>
+        </div>
+      </div>
+    </div>
 
-        <!-- AMENAZAS -->
-        <div class="foda-card amenazas">
+    <!-- AMENAZAS -->
+    <div class="flip-wrapper amenazas" onclick="this.classList.toggle('flipped')">
+      <div class="flip-inner">
+        <div class="flip-front">
           <div class="foda-card-header">
             <span class="foda-icon">⚠️</span>
             <span class="foda-title">AMENAZAS</span>
           </div>
-          <ul class="foda-items">
-            <li>
-              <div class="foda-item-title">Saturación de Compromisos</div>
-              <div class="score-row">
-                <span class="score-label" style="color: var(--neon-yellow)"
-                  >Riesgo</span
-                >
-                <div class="score-pips" style="color: var(--neon-yellow)">
-                  <div class="pip filled"></div>
-                  <div class="pip filled"></div>
-                  <div class="pip filled"></div>
-                  <div class="pip filled"></div>
-                  <div class="pip"></div>
+          <div class="front-body">
+            <ul class="foda-items">
+              <li>
+                <div class="foda-item-title">Saturación de Compromisos</div>
+                <div class="score-row">
+                  <span class="score-label" style="color:var(--neon-yellow)">Riesgo</span>
+                  <div class="score-pips" style="color:var(--neon-yellow)">
+                    <div class="pip filled"></div><div class="pip filled"></div><div class="pip filled"></div><div class="pip filled"></div><div class="pip"></div>
+                  </div>
                 </div>
-              </div>
-            </li>
-            <li>
-              <div class="foda-item-title">Delegación Deficiente en Escala</div>
-              <div class="score-row">
-                <span class="score-label" style="color: var(--neon-yellow)"
-                  >Riesgo</span
-                >
-                <div class="score-pips" style="color: var(--neon-yellow)">
-                  <div class="pip filled"></div>
-                  <div class="pip filled"></div>
-                  <div class="pip filled"></div>
-                  <div class="pip"></div>
-                  <div class="pip"></div>
+              </li>
+              <li>
+                <div class="foda-item-title">Delegación en Escala</div>
+                <div class="score-row">
+                  <span class="score-label" style="color:var(--neon-yellow)">Riesgo</span>
+                  <div class="score-pips" style="color:var(--neon-yellow)">
+                    <div class="pip filled"></div><div class="pip filled"></div><div class="pip filled"></div><div class="pip"></div><div class="pip"></div>
+                  </div>
                 </div>
-              </div>
-            </li>
-            <li>
-              <div class="foda-item-title">
-                Manejo de Conflictos sin Práctica
-              </div>
-              <div class="score-row">
-                <span class="score-label" style="color: var(--neon-yellow)"
-                  >Riesgo</span
-                >
-                <div class="score-pips" style="color: var(--neon-yellow)">
-                  <div class="pip filled"></div>
-                  <div class="pip filled"></div>
-                  <div class="pip"></div>
-                  <div class="pip"></div>
-                  <div class="pip"></div>
+              </li>
+              <li>
+                <div class="foda-item-title">Manejo de Conflictos</div>
+                <div class="score-row">
+                  <span class="score-label" style="color:var(--neon-yellow)">Riesgo</span>
+                  <div class="score-pips" style="color:var(--neon-yellow)">
+                    <div class="pip filled"></div><div class="pip filled"></div><div class="pip"></div><div class="pip"></div><div class="pip"></div>
+                  </div>
                 </div>
-              </div>
-            </li>
-          </ul>
-        </div>
-      </div>
-      <!-- /foda-grid -->
-
-      <!-- ══ GALLERY ══════════════════════════════════════════════ -->
-      <h2 class="section-title">✦ GALERÍA ✦</h2>
-      <p class="gallery-intro">
-        Imágenes y videos que respaldan y complementan el análisis.
-      </p>
-
-      <div class="gallery-grid">
-        <!-- SLOT 1 — Image -->
-        <div class="gallery-slot" id="slot-img-1">
-          <img src="foto1.png" alt="foto1" />
-        </div>
-
-        <!-- SLOT 2 — Image -->
-        <div class="gallery-slot" id="slot-img-2">
-          <img src="foto2.png" alt="foto2" />
-        </div>
-
-        <!-- SLOT 3 — Image -->
-        <div class="gallery-slot" id="slot-img-3">
-          <img src="foto3.png" alt="foto3" />
-          <div class="gallery-placeholder">
-            <p>IMAGEN 3</p>
-            <span>Reemplaza con &lt;img src="..."&gt;</span>
+              </li>
+            </ul>
           </div>
+          <p class="flip-hint">CLICK PARA REVELAR ✦</p>
+        </div>
+        <div class="flip-back">
+          <div class="foda-card-header">
+            <span class="foda-icon">⚠️</span>
+            <span class="foda-title">AMENAZAS</span>
+          </div>
+          <div class="back-body">
+            <div class="qa-block">
+              <p class="qa-q">¿Qué factores externos pueden frenar tu desarrollo como líder?</p>
+              <p class="qa-a">La falta de oportunidades, limitaciones administrativas, burocracia o recursos económicos; por ejemplo, cuando no es posible asistir a eventos o acceder a ciertas actividades.</p>
+            </div>
+            <div class="qa-block">
+              <p class="qa-q">¿Cómo puedes anticiparte o responder a ellos?</p>
+              <p class="qa-a">Puedo mantenerme informada sobre requisitos y convocatorias, buscar constantemente nuevas oportunidades y explorar apoyos o recursos ofrecidos por instituciones.</p>
+            </div>
+          </div>
+          <p class="flip-back-hint">CLICK PARA VOLVER ↩</p>
         </div>
       </div>
-      <!-- /gallery-grid -->
-
-      <!-- ══ CONCLUSION ═══════════════════════════════════════════ -->
-      <h2 class="section-title">✦ REFLEXIÓN FINAL ✦</h2>
-
-      <div class="conclusion-box">
-        <div class="c-br"></div>
-        <div class="c-bl"></div>
-        <p>
-          Este semestre ha sido un punto de inflexión. No solo acumulé
-          habilidades —las <strong>puse a prueba</strong> en contextos reales:
-          liderando una comunidad, participando en decenas de reuniones,
-          preparándome para mis primeras prácticas profesionales. Mis fortalezas
-          más sólidas —<strong
-            >gestión del tiempo, reuniones de trabajo, crecimiento
-            profesional</strong
-          >— no son casualidad; son el resultado de horas de trabajo consciente.
-          Mis áreas de mejora, especialmente <strong>delegar</strong>, ya no me
-          sorprenden: las conozco, las entiendo y tengo un plan. El siguiente
-          capítulo se trata de consolidar, escalar y demostrar —en campo real—
-          que el liderazgo que he estado construyendo aquí
-          <strong>trasciende el salón de clase.</strong>
-        </p>
-      </div>
-
-      <!-- ══ FOOTER ════════════════════════════════════════════════ -->
-      <footer>
-        <p>✦ HABILIDADES DIRECTIVAS · <span>FODA PERSONAL</span> ✦</p>
-        <p>Hecho con 💜 y mucho café · GitHub Pages</p>
-      </footer>
     </div>
-    <!-- /page -->
 
-    <script>
-      /* ── STARFIELD ──────────────────────────────────────────── */
-      (function () {
-        const canvas = document.getElementById("starfield");
-        const ctx = canvas.getContext("2d");
-        let W, H, stars;
+  </div><!-- /foda-grid -->
 
-        function resize() {
-          W = canvas.width = window.innerWidth;
-          H = canvas.height = window.innerHeight;
-        }
+  <!-- ══ GALLERY ══════════════════════════════════════════════ -->
+  <h2 class="section-title">✦ GALERÍA ✦</h2>
+  <p class="gallery-intro">Imágenes y videos que respaldan y complementan el análisis.</p>
 
-        function makeStars(n) {
-          return Array.from({ length: n }, () => ({
-            x: Math.random() * W,
-            y: Math.random() * H,
-            r: Math.random() * 1.5 + 0.3,
-            spd: Math.random() * 0.3 + 0.05,
-            bri: Math.random(),
-            dBri:
-              (Math.random() * 0.01 + 0.003) * (Math.random() < 0.5 ? 1 : -1),
-            col:
-              Math.random() < 0.3
-                ? "#00f5d4"
-                : Math.random() < 0.5
-                  ? "#a855f7"
-                  : "#e8e0ff",
-          }));
-        }
+  <div class="gallery-grid">
 
-        function draw() {
-          ctx.clearRect(0, 0, W, H);
-          for (const s of stars) {
-            s.bri += s.dBri;
-            if (s.bri >= 1 || s.bri <= 0) s.dBri *= -1;
-            s.y -= s.spd;
-            if (s.y < 0) {
-              s.y = H;
-              s.x = Math.random() * W;
-            }
-            ctx.save();
-            ctx.globalAlpha = s.bri * 0.85 + 0.1;
-            ctx.fillStyle = s.col;
-            ctx.shadowColor = s.col;
-            ctx.shadowBlur = s.r * 4;
-            ctx.beginPath();
-            ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
-            ctx.fill();
-            ctx.restore();
-          }
-          requestAnimationFrame(draw);
-        }
+    <!-- SLOT 1 — Image -->
+    <div class="gallery-slot" id="slot-img-1">
+      <!-- TO ADD YOUR IMAGE: replace the placeholder div below with:
+           <img src="tu-imagen.jpg" alt="descripción" /> -->
+      <div class="gallery-placeholder">
+        <div class="ph-icon">🖼️</div>
+        <p>IMAGEN 1</p>
+        <span>Reemplaza con &lt;img src="..."&gt;</span>
+      </div>
+    </div>
 
-        resize();
-        stars = makeStars(200);
-        window.addEventListener("resize", () => {
-          resize();
-          stars = makeStars(200);
-        });
-        draw();
-      })();
+    <!-- SLOT 2 — Image -->
+    <div class="gallery-slot" id="slot-img-2">
+      <div class="gallery-placeholder">
+        <div class="ph-icon">🖼️</div>
+        <p>IMAGEN 2</p>
+        <span>Reemplaza con &lt;img src="..."&gt;</span>
+      </div>
+    </div>
 
-      /* ── FLOATING PIXEL PARTICLES ───────────────────────────── */
-      (function () {
-        const colors = ["#00f5d4", "#a855f7", "#f72585", "#ffe566"];
-        const shapes = ["⭐", "✦", "◆", "▲", "●", "✿"];
-        for (let i = 0; i < 18; i++) {
-          const el = document.createElement("div");
-          el.className = "pixel-deco";
-          el.textContent = shapes[Math.floor(Math.random() * shapes.length)];
-          el.style.cssText = `
+    <!-- SLOT 3 — Image -->
+    <div class="gallery-slot" id="slot-img-3">
+      <div class="gallery-placeholder">
+        <div class="ph-icon">🖼️</div>
+        <p>IMAGEN 3</p>
+        <span>Reemplaza con &lt;img src="..."&gt;</span>
+      </div>
+    </div>
+
+  </div><!-- /gallery-grid -->
+
+  <div class="media-instructions">
+    <h3>📁 CÓMO AGREGAR TUS IMÁGENES</h3>
+    <p>Para <strong>imágenes locales</strong>: coloca los archivos en la misma carpeta que <code>index.html</code> y reemplaza el <code>&lt;div class="gallery-placeholder"&gt;</code> con <code>&lt;img src="mi-foto.jpg" alt="..." /&gt;</code></p>
+    <p>Para <strong>GitHub Pages</strong>: sube las imágenes al mismo repositorio y usa rutas relativas como <code>src="fotos/mi-foto.jpg"</code>.</p>
+  </div>
+
+  <!-- ══ CONCLUSION ═══════════════════════════════════════════ -->
+  <h2 class="section-title">✦ REFLEXIÓN FINAL ✦</h2>
+
+  <div class="conclusion-box">
+    <div class="c-br"></div>
+    <div class="c-bl"></div>
+    <p>
+      Este semestre ha sido un punto de inflexión. No solo acumulé habilidades —las <strong>puse a prueba</strong> en contextos reales: liderando una comunidad, participando en decenas de reuniones, preparándome para mis primeras prácticas profesionales. Mis fortalezas más sólidas —<strong>gestión del tiempo, reuniones de trabajo, crecimiento profesional</strong>— no son casualidad; son el resultado de horas de trabajo consciente. Mis áreas de mejora, especialmente <strong>delegar</strong>, ya no me sorprenden: las conozco, las entiendo y tengo un plan. El siguiente capítulo se trata de consolidar, escalar y demostrar —en campo real— que el liderazgo que he estado construyendo aquí <strong>trasciende el salón de clase.</strong>
+    </p>
+  </div>
+
+  <!-- ══ FOOTER ════════════════════════════════════════════════ -->
+  <footer>
+    <p>✦ HABILIDADES DIRECTIVAS · <span>FODA PERSONAL</span> ✦</p>
+    <p>Hecho con 💜 y mucho café · GitHub Pages</p>
+  </footer>
+
+</div><!-- /page -->
+
+<script>
+/* ── STARFIELD ──────────────────────────────────────────── */
+(function () {
+  const canvas = document.getElementById('starfield');
+  const ctx = canvas.getContext('2d');
+  let W, H, stars;
+
+  function resize() {
+    W = canvas.width  = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+
+  function makeStars(n) {
+    return Array.from({ length: n }, () => ({
+      x:    Math.random() * W,
+      y:    Math.random() * H,
+      r:    Math.random() * 1.5 + 0.3,
+      spd:  Math.random() * 0.3 + 0.05,
+      bri:  Math.random(),
+      dBri: (Math.random() * 0.01 + 0.003) * (Math.random() < 0.5 ? 1 : -1),
+      col:  Math.random() < 0.3 ? '#00f5d4' : Math.random() < 0.5 ? '#a855f7' : '#e8e0ff'
+    }));
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+    for (const s of stars) {
+      s.bri += s.dBri;
+      if (s.bri >= 1 || s.bri <= 0) s.dBri *= -1;
+      s.y -= s.spd;
+      if (s.y < 0) { s.y = H; s.x = Math.random() * W; }
+      ctx.save();
+      ctx.globalAlpha = s.bri * 0.85 + 0.1;
+      ctx.fillStyle   = s.col;
+      ctx.shadowColor = s.col;
+      ctx.shadowBlur  = s.r * 4;
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+    }
+    requestAnimationFrame(draw);
+  }
+
+  resize();
+  stars = makeStars(200);
+  window.addEventListener('resize', () => { resize(); stars = makeStars(200); });
+  draw();
+})();
+
+/* ── FLOATING PIXEL PARTICLES ───────────────────────────── */
+(function () {
+  const colors = ['#00f5d4','#a855f7','#f72585','#ffe566'];
+  const shapes = ['⭐','✦','◆','▲','●','✿'];
+  for (let i = 0; i < 18; i++) {
+    const el = document.createElement('div');
+    el.className = 'pixel-deco';
+    el.textContent = shapes[Math.floor(Math.random() * shapes.length)];
+    el.style.cssText = `
       position:fixed;
-      left:${Math.random() * 100}vw;
-      font-size:${6 + Math.random() * 10}px;
-      color:${colors[Math.floor(Math.random() * colors.length)]};
+      left:${Math.random()*100}vw;
+      font-size:${6+Math.random()*10}px;
+      color:${colors[Math.floor(Math.random()*colors.length)]};
       text-shadow:0 0 6px currentColor;
-      animation-duration:${8 + Math.random() * 14}s;
-      animation-delay:${-Math.random() * 14}s;
+      animation-duration:${8+Math.random()*14}s;
+      animation-delay:${-Math.random()*14}s;
       opacity:0;
       pointer-events:none;
       z-index:1;
       animation:floatPixel linear infinite;
     `;
-          document.body.appendChild(el);
-        }
-      })();
+    document.body.appendChild(el);
+  }
+})();
 
-      /* ── SCROLL REVEAL ──────────────────────────────────────── */
-      (function () {
-        const observer = new IntersectionObserver(
-          (entries) => {
-            entries.forEach((e) => {
-              if (e.isIntersecting) {
-                e.target.style.opacity = "1";
-                e.target.style.transform = "translateY(0)";
-              }
-            });
-          },
-          { threshold: 0.1 },
-        );
+/* ── SCROLL REVEAL ──────────────────────────────────────── */
+(function () {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.opacity = '1';
+        e.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.1 });
 
-        document
-          .querySelectorAll(
-            ".foda-card, .gallery-slot, .conclusion-box, .stat-chip",
-          )
-          .forEach((el) => {
-            el.style.opacity = "0";
-            el.style.transform = "translateY(20px)";
-            el.style.transition = "opacity 0.6s ease, transform 0.6s ease";
-            observer.observe(el);
-          });
-      })();
-    </script>
-  </body>
+  document.querySelectorAll('.flip-wrapper, .gallery-slot, .conclusion-box, .stat-chip').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(20px)';
+    el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+    observer.observe(el);
+  });
+})();
+</script>
+</body>
 </html>
